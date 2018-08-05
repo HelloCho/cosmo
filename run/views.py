@@ -11,13 +11,16 @@ from .form import LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.template import RequestContext
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
+@login_required(login_url='login')
 def index(request):
     createdResult = Product.objects.filter(isDisposal=False).values('product_id', 'isDisposal').annotate(name=F('product__name'),code=F('product__code'),total=Sum('quantity'))
     disposalResult = Product.objects.filter(isDisposal=True).values('product_id', 'isDisposal').annotate(name=F('product__name'),code=F('product__code'),total=Sum('quantity'))
     return render(request, "run/index.html", {"createdResult":createdResult, "disposalResult":disposalResult})
 
+@login_required(login_url='login')
 def detail(request, itemKey, disposalFlag):
     if (disposalFlag == 'False'):
         result = Product.objects.filter(product_id=itemKey, isDisposal='False').values('madeYear', 'isDisposal').annotate(name=F('product__name'), quantity=Sum('quantity')).order_by('-madeYear')
@@ -26,6 +29,7 @@ def detail(request, itemKey, disposalFlag):
 
     return render(request, "run/detail.html", {"result":result})
 
+@login_required(login_url='login')
 def post(request):
     if request.method == 'POST':
         # Post 일 경우
