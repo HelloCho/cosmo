@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css'%}">
+  </head>
+  <body>
+    <div class="container">
+        <div class="row text-center">
+            <h1 class="text-muted"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-blackboard text-muted"></span></a>&nbsp;봉부자 자재 관리</h1>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th class="text-center">모델 명</th>
+                            <th class="text-center">년도</th>
+                            <th class="text-center">개수</th>
+                            <th class="text-center">폐기여부</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in result %}
+                        <tr class="text-center">
+                            <td class="name">{{item.name}}</td>
+                            <td class="year">{{item.madeYear}}</td>
+                            <td class="quantity">{{item.quantity}}</td>
+                            <td class="isDisposal">{{item.isDisposal}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'jQuery/jquery-3.2.1.min.js'%}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+    <script type="text/javascript">
+        $(".isDisposal").each(function() {
+            var is = $(this).text();
+            if(is == 'True'){
+                $(this).text("")
+                $(this).append("<span class='glyphicon glyphicon-ok text-danger'></span>")
+            } else {
+                $(this).text("")
+                $(this).append("<span class='glyphicon glyphicon-remove text-success'></span>")
+            }
+        });
+    </script>
+  </body>
+</html>

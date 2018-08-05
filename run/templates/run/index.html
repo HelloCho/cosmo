@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap-theme.min.css'%}">
+    <style>
+    .vcenter {
+        display: inline-block;
+        vertical-align: middle;
+        float: none;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12 vcenter">
+                <h1 class="text-muted"><a href="{% url 'index' %}"><span class="glyphicon glyphicon-blackboard text-muted"></span></a>&nbsp;봉부자 자재 관리</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-11 col-md-1 text-right" style="height:69px;line-height:69px;">
+                <a href="{% url 'post' %}"><span class="btn btn-default glyphicon glyphicon-pencil"></span></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><h3><span class="glyphicon glyphicon-flag text-success"></span>&nbsp;전체 제품 개수</h3></div>
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">모델 명</th>
+                            <th class="text-center">전체 개수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in createdResult %}
+                        <tr class="text-center">
+                            <td><a href="{% url 'detail' itemKey=item.product_id disposalFlag=item.isDisposal %}">{{item.name}}</a></td>
+                            <td>{{item.total}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12"><h3><span class="glyphicon glyphicon-trash text-danger"></span>&nbsp;폐기 전체 제품 개수</h3></div>
+            <div class="col-md-12">
+                <table class="table table-hover">
+                    <colgroup>
+                        <col width="50%">
+                        <col width="50%">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th class="text-center">모델 명</th>
+                            <th class="text-center">전체 개수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in disposalResult %}
+                        <tr class="text-center">
+                            <td><a href="{% url 'detail' itemKey=item.product_id disposalFlag=item.isDisposal %}">{{item.name}}</a></td>
+                            <td>{{item.total}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{% static 'jQuery/jquery-3.2.1.min.js'%}"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bootstrap/js/bootstrap.min.js'%}"></script>
+  </body>
+</html>
